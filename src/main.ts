@@ -19,7 +19,7 @@ async function bootstrap() {
   await app.listen(process.env.PORT || 3000).then(() => {
     Logger.verbose(
       `${new Date()}`,
-      'APPLICATION STARTED AT PORT ' + process.env.PORT || 3000,
+      'Application started at port ' + process.env.PORT || 3000,
     );
   });
 }

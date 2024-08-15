@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  mysql-master:
+    image: mysql:8.0
+    container_name: mysql-master
+    command: --server-id=3 --log-bin=mysql-bin --binlog-format=row
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: ${DB_DATABASE_MASTER}
+      MYSQL_USER: ${DB_USERNAME_MASTER}
+      MYSQL_PASSWORD: ${DB_PASSWORD_MASTER}
+    ports:
+      - "${DB_PORT_MASTER}:3306"
+
+  mysql-slave-1:
+    image: mysql:8.0
+    container_name: mysql-slave-1
+    depends_on:
+      - mysql-master
+    command: --server-id=4 --log-bin=mysql-bin --binlog-format=row
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: ${DB_DATABASE_SLAVE_1}
+      MYSQL_USER: ${DB_USERNAME_SLAVE_1}
+      MYSQL_PASSWORD: ${DB_PASSWORD_SLAVE_1}
+    ports:
+      - "${DB_PORT_SLAVE_1}:3306"
+
+  mysql-slave-2:
+    image: mysql:8.0
+    container_name: mysql-slave-2
+    depends_on:
+      - mysql-master
+    command: --server-id=5 --log-bin=mysql-bin --binlog-format=row
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: ${DB_DATABASE_SLAVE_2}
+      MYSQL_USER: ${DB_USERNAME_SLAVE_2}
+      MYSQL_PASSWORD: ${DB_PASSWORD_SLAVE_2}
+    ports:
+      - "${DB_PORT_SLAVE_2}:3306"

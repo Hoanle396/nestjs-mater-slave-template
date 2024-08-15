@@ -1,6 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { CatModule } from './cat/cat.module';
+import { AppConfigModule } from './config/config.module';
+import { AppConfigService } from './config/config.service';
 
 @Module({
   imports: [
@@ -8,16 +11,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       envFilePath: '.env',
       isGlobal: true,
     }),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT),
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
-      entities: [],
-      synchronize: true,
+    TypeOrmModule.forRootAsync({
+      imports: [AppConfigModule],
+      useFactory: async (
+        configService: AppConfigService,
+      ): Promise<TypeOrmModuleOptions> => configService.getDataSourceOptions(),
+      inject: [AppConfigService],
     }),
+    CatModule,
   ],
 })
 export class AppModule {}
