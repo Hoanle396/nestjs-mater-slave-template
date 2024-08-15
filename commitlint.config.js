@@ -18,5 +18,6 @@ module.exports = {
         'vercel',
       ],
     ],
+    'subject-case': [2, 'always', ['lower-case']],
   },
 };
