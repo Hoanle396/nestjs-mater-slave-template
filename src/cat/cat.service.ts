@@ -2,7 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { CreateCatDto } from './dto/create-cat.dto';
-import { Cat } from './entities/cat.entity';
+import { Cat } from '../databases/entities/cat.entity';
 
 @Injectable()
 export class CatService {

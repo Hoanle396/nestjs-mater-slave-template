@@ -1,23 +1,17 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { CatModule } from './cat/cat.module';
-import { AppConfigModule } from './config/config.module';
-import { AppConfigService } from './config/config.service';
+import { load } from './config';
+import { OrmModule } from './orm.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: '.env',
       isGlobal: true,
+      load,
     }),
-    TypeOrmModule.forRootAsync({
-      imports: [AppConfigModule],
-      useFactory: async (
-        configService: AppConfigService,
-      ): Promise<TypeOrmModuleOptions> => configService.getDataSourceOptions(),
-      inject: [AppConfigService],
-    }),
+    OrmModule,
     CatModule,
   ],
 })
