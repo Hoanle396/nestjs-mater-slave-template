@@ -1,1 +1,3 @@
-export * from './cat.entity';
+export * from './admin.entity';
+export * from './user.entity';
+export * from './otp-code.entity';

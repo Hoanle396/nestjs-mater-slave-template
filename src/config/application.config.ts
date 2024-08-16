@@ -10,9 +10,14 @@ export class ApplicationConfig {
   @IsString()
   env: string;
 
+  @IsNotEmpty()
+  @IsString()
+  prefix: string;
+
   constructor() {
     this.port = Number(process.env.PORT);
     this.env = process.env.NODE_ENV;
+    this.prefix = process.env.PREFIX || 'api';
   }
 }
 
